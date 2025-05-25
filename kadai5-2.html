@@ -6,16 +6,28 @@
 <body>
     <h1 id="msg">何かのAPI</h1>
     <form name="apiform"><p>
-        何かのフォーム：<input type="text" name="form_data">
         <button type="button" id="btn1" onclick="some_api(this.form)">実行</button>
     </p></form>
-    
+
     <div id="result"></div>
     <script>
         async function some_api(myForm) {
             // ここにコードを書く
-            document.getElementById("result").innerHTML += myForm.form_data.value+"<br />";
+            // APIのエンドポイントを設定
+            const endpoint = "https://official-joke-api.appspot.com/jokes/random";
+            // APIを呼び出す
+            const response = await fetch(endpoint);
+            // レスポンスをJSON形式で取得
+            const data = await response.json();
+            // 取得したデータを整形して表示
+            const joke = `${data.setup} - ${data.punchline}`;
+            // 結果を表示
+            document.getElementById("result").innerHTML = joke + "<br />";
             document.apiform.reset();
+            // フォームをリセット
+            console.log(data); // デバッグ用にコンソールに出力
+            // デバッグ用にコンソールに出力
+            console.log(joke); // ジョークをコンソールに出力
         }
     </script>
 </body>
