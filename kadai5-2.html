@@ -8,27 +8,27 @@
     <form name="apiform"><p>
         <button type="button" id="btn1" onclick="some_api(this.form)">実行</button>
     </p></form>
-
-    <div id="result"></div>
+    <p id="result">結果がここに表示されます。</p>
     <script>
-        async function some_api(myForm) {
-            // ここにコードを書く
-            // APIのエンドポイントを設定
-            const endpoint = "https://official-joke-api.appspot.com/jokes/random";
-            // APIを呼び出す
-            const response = await fetch(endpoint);
-            // レスポンスをJSON形式で取得
-            const data = await response.json();
-            // 取得したデータを整形して表示
-            const joke = `${data.setup} - ${data.punchline}`;
-            // 結果を表示
-            document.getElementById("result").innerHTML = joke + "<br />";
-            document.apiform.reset();
-            // フォームをリセット
-            console.log(data); // デバッグ用にコンソールに出力
-            // デバッグ用にコンソールに出力
-            console.log(joke); // ジョークをコンソールに出力
+        function some_api(form) {
+            const url = "https://api.adviceslip.com/advice";
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("msg").textContent = "APIからのメッセージ";
+                    document.getElementById("result").textContent = data.slip.advice;
+                })
+                .catch(error => {
+                    document.getElementById("msg").textContent = "エラーが発生しました";
+                    document.getElementById("result").textContent = error.message;
+                });
         }
     </script>
+    <p>このページは、外部APIを呼び出して結果を表示するためのサンプルです。</p>
+    <p>ボタンをクリックすると、APIからのアドバイスが表示されます。</p>
+
+    <p>APIのエンドポイントは <code>https://api.adviceslip.com/advice</code> です。</p>
+    <p>このAPIは、ランダムなアドバイスを提供します。</p>
+    <p>APIのレスポンスはJSON形式で、アドバイスは <code>data.slip.advice</code> で取得できます。</p>
 </body>
 </html>
